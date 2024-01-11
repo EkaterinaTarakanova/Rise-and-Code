@@ -5,11 +5,13 @@ using UnityEngine;
 public class ThermometerController : MonoBehaviour
 {
     private Transform sliderTransform;
+    private StartForce[] startForceScripts;
 
     private void Start()
     {
         // ползунок термометра
         sliderTransform = transform.Find("Cylinder.002");
+        startForceScripts = FindObjectsOfType<StartForce>();
     }
 
     private void Update()
@@ -24,6 +26,14 @@ public class ThermometerController : MonoBehaviour
 
                 // меняем scale.z ползунка, исходя из смещения пальца
                 sliderTransform.localScale += new Vector3(0f, 0f, yOffset * 0.01f);
+                // Получаем значение scale по оси Z
+                float intensity = sliderTransform.localScale.z;
+
+                foreach (StartForce startForceScript in startForceScripts)
+                {
+                    // Устанавливаем новую интенсивность в каждом скрипте StartForce
+                    startForceScript.startForce = new Vector3(intensity, intensity, intensity);
+                }
             }
         }
     }

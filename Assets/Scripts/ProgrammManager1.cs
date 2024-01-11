@@ -12,9 +12,7 @@ public class ProgrammManager : MonoBehaviour
     [Header("Put your Object here")]
     public GameObject ObjectToSpawn;
 
-    private ARRaycastManager ARRaycastManagerScript; 
-    private bool hasSpawned = false; // Флаг для отслеживания создания объекта
-
+    private ARRaycastManager ARRaycastManagerScript;
     void Start()
     {
         ARRaycastManagerScript = FindObjectOfType<ARRaycastManager>();
@@ -40,15 +38,9 @@ public class ProgrammManager : MonoBehaviour
             PlaneMarkerPrefab.SetActive(true);
         }
 
-        if (!hasSpawned && Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
         {
-            Instantiate(ObjectToSpawn, hits[0].pose.position, ObjectToSpawn.transform.rotation); // Спавним объект
-            hasSpawned = true; // Устанавливаем флаг, что объект создан
-        }
-        else if (hasSpawned && Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
-        {
-            Destroy(ObjectToSpawn); // Удаляем объект
-            hasSpawned = false; // Устанавливаем флаг, что объект удален
+            Instantiate(ObjectToSpawn, hits[0].pose.position, ObjectToSpawn.transform.rotation);
         }
     }
 }
